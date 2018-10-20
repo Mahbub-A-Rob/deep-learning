@@ -56,3 +56,28 @@ classifier.add(Dense(units = 1, activation = "sigmoid")) # Checking only one, ei
 classifier.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
 
 # Step 6 - Fitting the CNN to the images
+from keras.preprocessing.image import ImageDataGenerator
+
+# code from keras doc https://keras.io/preprocessing/image/
+train_datagen = ImageDataGenerator(rescale=1./255,
+                                    shear_range=0.2,
+                                    zoom_range=0.2,
+                                    horizontal_flip=True)
+
+test_datagen = ImageDataGenerator(rescale=1./255)
+
+training_set = train_datagen.flow_from_directory('D:\\TutorialProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\training_set',
+                                                    target_size=(64, 64), # keep same as hidden layers
+                                                    batch_size=32,
+                                                    class_mode='binary')
+
+test_set = test_datagen.flow_from_directory('D:\\TutorialProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\test_set',
+                                            target_size=(64, 64),
+                                            batch_size=32,
+                                            class_mode='binary')
+
+classifier.fit_generator(training_set,
+                        steps_per_epoch=8000, # We have 8000 images training set
+                        epochs=5, # incrase this number on more powerful cpu
+                        validation_data=test_set,
+                        validation_steps=2000) # We have 2000 images in test set
