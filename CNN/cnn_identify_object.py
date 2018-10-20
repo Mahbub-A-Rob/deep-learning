@@ -78,6 +78,46 @@ test_set = test_datagen.flow_from_directory('D:\\TutorialProjects\\MachineLearni
 
 classifier.fit_generator(training_set,
                         steps_per_epoch=8000, # We have 8000 images training set
-                        epochs=5, # incrase this number on more powerful cpu
+                        epochs=2, # incrase this number on more powerful cpu
                         validation_data=test_set,
                         validation_steps=2000) # We have 2000 images in test set
+
+
+
+
+# Second Part
+
+# Detect single object - Predict single object
+import numpy as np
+from keras.preprocessing import image
+
+
+# Load image
+test_image = image.load_img("D:\\TutorialProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\single_prediction\\cat_or_dog_2.jpg", 
+                            target_size = (64, 64))
+
+# Let's make it a 3D array as input is a 3D; input_shape=(64, 64, 3)
+test_image = image.img_to_array(test_image) # Returns 3D array
+
+# We need 4D array to predict, so add another dimension in the first position, axis = 0
+test_image = np.expand_dims(test_image, axis = 0)
+
+# Predict - it expects 4D array, above code place 1 at the first position
+result = classifier.predict(test_image) # returns 0 or 1
+
+# Check the value of 0 and 1 in the training set
+training_set.class_indices
+
+# Check first row and first column value
+if result[0][0] == 1:
+    prediction = "Dog"
+else:
+    prediction = "Cat"
+
+
+
+
+
+
+
+
