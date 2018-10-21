@@ -31,8 +31,75 @@ train_set = sc.fit_transform(train_set)
 # So output: 1 to 1258
 # Look at the generated X_train's opening price and 
 # y_train's closing price and compare it with train_set
+
 """
+
 X_train = train_set[0:1257]
 y_train = train_set[1:1258]
 
 
+
+"""
+# Reshaping : Add extra dimension
+# We reshape: We have 2D array where 1st dimension has 1257 rows/observations
+# And 2nd dimension has 1 feature which is stock price at time T
+# Our input is T and output is T+1
+# So, T + 1 - T = 1
+# So the time step is 1
+
+"""
+
+# Use keras RNN doc
+# (1257, 1, 1) = first dimension, time step, feature
+X_train = np.reshape(X_train, (1257, 1, 1))
+
+
+# Import keras libraries
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import LSTM
+
+
+# Initializing the RNN
+regressor = Sequential()
+
+
+# Add input layer
+# units = number of memory units, using 4 is a common practice
+# Input shape none so that the model can accept any time step
+# input shape = None, 1, 1 is for number of features we have
+regressor.add(LSTM(units = 4, activation = "sigmoid", input_shape = (None, 1)))
+
+# Add output layer
+# units = 1 as output has one dimension
+regressor.add(Dense(units = 1))
+
+
+# Compiling RNN
+regressor.compile(optimizer="adam", loss="mean_squared_error")
+
+# Fitting the RNN to the training set
+regressor.fit(X_train, y_train, batch_size=32, epochs = 200)
+
+# Make a prediction
+
+# Get the real stock price of 2017
+test_df = pd.read_csv("D:\\MahbubProjects\\MachineLearning\\DeepLearning\\Datasets\\RNN\\Google_Stock_Price_Test.csv")
+real_stock_price = test_df.iloc[:, 1:2].values
+
+# Predict stock price of 2017
+inputs = real_stock_price
+inputs = sc.transform(inputs) # As we scaled the train set
+inputs = np.reshape(inputs, (20, 1, 1)) # We need to reshape as our train set is reshaped
+predicted_stock_price = regressor.predict(inputs) # This is a scaled version
+predicted_stock_price = sc.inverse_transform(predicted_stock_price)
+
+
+# Visualize the prediction
+plt.plot(real_stock_price, color="green", label="Real Google Stock Prices")
+plt.plot(predicted_stock_price, color="black", label="Predicted Google Stock Prices")
+plt.title("Google Stock Price Prediction")
+plt.xlabel("Time")
+plt.ylabel("Google Stock Price")
+plt.legend()
+plt.show()
