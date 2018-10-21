@@ -66,12 +66,12 @@ train_datagen = ImageDataGenerator(rescale=1./255,
 
 test_datagen = ImageDataGenerator(rescale=1./255)
 
-training_set = train_datagen.flow_from_directory('D:\\TutorialProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\training_set',
+training_set = train_datagen.flow_from_directory('D:\\MahbubProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\training_set',
                                                     target_size=(64, 64), # keep same as hidden layers
                                                     batch_size=32,
                                                     class_mode='binary')
 
-test_set = test_datagen.flow_from_directory('D:\\TutorialProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\test_set',
+test_set = test_datagen.flow_from_directory('D:\\MahbubProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\test_set',
                                             target_size=(64, 64),
                                             batch_size=32,
                                             class_mode='binary')
