@@ -103,3 +103,21 @@ plt.xlabel("Time")
 plt.ylabel("Google Stock Price")
 plt.legend()
 plt.show()
+
+
+# Get the real stock price from 2012 to 2016
+real_stock_price_train_df = pd.read_csv("D:\\MahbubProjects\\MachineLearning\\DeepLearning\\Datasets\\RNN\\Google_Stock_Price_Train.csv")
+real_stock_price_train = real_stock_price_train_df.iloc[:, 1:2].values
+
+# Get the predicted stock price from 2012 to 2016
+predicted_stock_price_train = regressor.predict(X_train)
+predicted_stock_price_train = sc.inverse_transform(predicted_stock_price_train)
+
+# Visualize the result
+plt.plot(real_stock_price_train, color="red", label="Real Google Stock Prices")
+plt.plot(predicted_stock_price_train, color="black", label="Predicted Google Stock Prices")
+plt.title("Google Stock Price Prediction")
+plt.xlabel("Time")
+plt.ylabel("Google Stock Price")
+plt.legend()
+plt.show()
