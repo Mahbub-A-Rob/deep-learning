@@ -38,4 +38,25 @@ from minisom import MiniSom
 # So we will just create a 10 by 10 matrix, X = 10, y = 10
 # Input_len = number of features in our dataset 14+1=15
 # Sigma: Radious in the different neighborhoods in the grid
-minisom = MiniSom(x=10, y=10, input_len=15, sigma=1.0, learning_rate=0.5)
+minisom = MiniSom(x = 10, y = 10, input_len = 15, sigma = 1.0, learning_rate = 0.5)
+minisom.random_weights_init(X)
+minisom.train_random(data = X, num_iteration = 100)
+
+# Visualize the SOM
+from pylab import bone, pcolor, colorbar, plot, show
+bone()
+pcolor(minisom.distance_map().T)
+colorbar() # Color close to white are frauds
+markers = ["o", "s"] # s=square
+colors = ["r", "g"] # red = didn't get approval, green=got approval
+for i, x in enumerate(X):
+    winning_node = minisom.winner(x)
+    plot(winning_node[0] + 0.5, # placing to center using .5 
+         winning_node[1] + 0.5,
+         markers[y[i]],
+         markeredgecolor = colors[y[i]],
+         markerfacecolor = "None",
+         markersize = 10,
+         markeredgewidth = 2
+         )
+show()
