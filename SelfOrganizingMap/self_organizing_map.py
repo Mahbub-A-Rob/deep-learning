@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
 # Project: Self Organizing Map
-
+"""
+http://davis.wpi.edu/~matt/courses/soms/
+Self-organizing maps (SOMs) are a data visualization technique invented by Professor 
+Teuvo Kohonen which reduce the dimensions of data through the use of self-organizing 
+neural networks. The problem that data visualization attempts to solve  is that humans 
+simply cannot visualize high dimensional data as is so techniques are created to help us 
+understand this high dimensional data. Two other techniques of reducing the dimensions 
+of data that has been presented in this course has been N-Land and Multi-dimensional 
+Scaling. The way  SOMs go about reducing dimensions is by producing a map of usually 
+1 or 2 dimensions which plot the similarities of the data by grouping similar data 
+items together.  So SOMs accomplish two things, they reduce dimensions and display similarities. 
+"""
 """
 Created on Tue Oct 23 19:05:13 2018
 
@@ -40,7 +51,7 @@ from minisom import MiniSom
 # Sigma: Radious in the different neighborhoods in the grid
 minisom = MiniSom(x = 10, y = 10, input_len = 15, sigma = 1.0, learning_rate = 0.5)
 minisom.random_weights_init(X)
-minisom.train_random(data = X, num_iteration = 100)
+minisom.train_random(data = X, num_iteration = 200)
 
 # Visualize the SOM
 from pylab import bone, pcolor, colorbar, plot, show
@@ -60,3 +71,16 @@ for i, x in enumerate(X):
          markeredgewidth = 2
          )
 show()
+
+# Detect Fraud
+# Create a dictionary and map all the winning nodes to customer
+# Key will represent the co-ordinates of the winning nodes
+# For spyder click on the numpy array cell, a new window will be opened
+# In the new window, each line will corresponds to one customer that
+# associated with the winning node of that matching co-ordinates
+# Click again and we will see the value of the customer ID but it is scaled
+# We will have to inverse the scaling
+# exis = 0 means concatenate vertically which is default
+map_dictionary = minisom.win_map(X) # Pass the whole dataset
+frauds = np.concatenate((map_dictionary[(8,3)], map_dictionary[(5,7)]), axis=0)
+frauds = sc.inverse_transform(frauds) # These are the customer ids = possible fraud
