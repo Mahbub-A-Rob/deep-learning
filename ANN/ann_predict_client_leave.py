@@ -1,12 +1,12 @@
-# Classification template
-
+"""
+Predict if a customer will leave the bank
+"""
 # Importing the libraries
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 
 # Importing the dataset
-dataset = pd.read_csv('D:\\TutorialProjects\\MachineLearning\\DataSets\\Churn_Modelling.csv')
+dataset = pd.read_csv('Churn_Modelling.csv')
 X = dataset.iloc[:, 3:13].values
 y = dataset.iloc[:, 13].values
 
@@ -20,7 +20,7 @@ labelencoder_X_Country = LabelEncoder()
 X[:, 1] = labelencoder_X_Country.fit_transform(X[:, 1]) # Take country column which is 1st column
 
 labelencoder_X_Gender = LabelEncoder()
-X[:, 2] = labelencoder_X_Gender.fit_transform(X[:, 2]) # Take country column which is 1st column
+X[:, 2] = labelencoder_X_Gender.fit_transform(X[:, 2]) 
 
 
 onehotencoder = OneHotEncoder(categorical_features = [1]) # Take only country column to crate dummy variables.
