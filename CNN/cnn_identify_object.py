@@ -66,12 +66,12 @@ train_datagen = ImageDataGenerator(rescale=1./255,
 
 test_datagen = ImageDataGenerator(rescale=1./255)
 
-training_set = train_datagen.flow_from_directory('D:\\MahbubProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\training_set',
+training_set = train_datagen.flow_from_directory('dataset\\training_set',
                                                     target_size=(64, 64), # keep same as hidden layers
                                                     batch_size=32,
                                                     class_mode='binary')
 
-test_set = test_datagen.flow_from_directory('D:\\MahbubProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\test_set',
+test_set = test_datagen.flow_from_directory('dataset\\test_set',
                                             target_size=(64, 64),
                                             batch_size=32,
                                             class_mode='binary')
@@ -93,7 +93,7 @@ from keras.preprocessing import image
 
 
 # Load image
-test_image = image.load_img("D:\\TutorialProjects\\MachineLearning\\DeepLearning\\Datasets\\dataset\\single_prediction\\cat_or_dog_2.jpg", 
+test_image = image.load_img("dataset\\single_prediction\\cat_or_dog_2.jpg", 
                             target_size = (64, 64))
 
 # Let's make it a 3D array as input is a 3D; input_shape=(64, 64, 3)
